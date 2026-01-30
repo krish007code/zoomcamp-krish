@@ -191,6 +191,7 @@ Question 6.
 1. I used Docker Compose to run multiple containers on same network
 
     To start the services:
+        cd zoomcamp-krish/week1
         docker compose up -d
 
 2. to work with pgcli
