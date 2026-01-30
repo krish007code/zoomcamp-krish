@@ -7,20 +7,25 @@ This repository contains my solution for Week 1 of the Data Engineering Zoomcamp
 * [SQL Homework Solutions](#sql-commands-for-homework-questions)
 * [How to Run](#how-to-run)
 
-## Terraform part![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?logo=terraform&logoColor=white)
+## ![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?logo=terraform&logoColor=white) Terraform part
 
-Instead of the standard Google Cloud setup, i used azure ones.<br>
+<strong>Instead of Google Cloud setup, i used azure ones.</strong><br>
 
-google provider	-> azurerm provider<br>
-Project	-> Resource Group (azurerm_resource_group)<br>
-GCS Bucket -> Data Lake Storage Gen2 (azurerm_storage_account with HNS)<br>
-BigQuery -> Azure Synapse Analytics (azurerm_synapse_workspace)<br>
+<ul>
+    <li>google provider	-> azurerm provider</li>
+    <li>Project	-> Resource Group (azurerm_resource_group)</li>
+    <li>GCS Bucket -> Data Lake Storage Gen2 (azurerm_storage_account with HNS)</li>
+    <li>BigQuery -> Azure Synapse Analytics (azurerm_synapse_workspace)</li>
+</ul>
+<p>
+The Terraform configuration include:
+<ol>
+    <li>1. main.tf: <em>Defines the resource logic.</em></li>
+    <li>2. variables.tf: <em>Stores parameters and ensures sensitive data (like SQL passwords) aren't hardcoded.</em></li>
+</ol>
+</p>
 
-The Terraform configuration is split into two files to follow best practices:<br>
-    1. main.tf: Defines the resource logic.<br>
-    2. variables.tf: Stores parameters and ensures sensitive data (like SQL passwords) aren't hardcoded.<br>
-
-Deployment process/steps
+### Deployment process/steps
 
 I managed the deployment through the Azure CLI and Terraform on Fedora.<br>
 1. Azure Authentication<br>
@@ -51,7 +56,7 @@ terraform apply      # Deploy to Azure
 The deployment was successful: <br>
 Plan: 4 to add, 0 to change, 0 to destroy.<br>
 
-## Docker & python![Python](https://img.shields.io/badge/python-3.13-blue.svg)<br>
+## ![Python](https://img.shields.io/badge/python-3.13-blue.svg) Docker & python<br>
 
 This section documents my journey of automating the ingestion of NYC taxi data into a local PostgreSQL database using a ingestion script.<br>
 The Tech Stack<br>
