@@ -20,8 +20,8 @@ This repository contains my solution for Week 1 of the Data Engineering Zoomcamp
 <p>
 The Terraform configuration include:
 <ol>
-    <li>1. main.tf: <em>Defines the resource logic.</em></li>
-    <li>2. variables.tf: <em>Stores parameters and ensures sensitive data (like SQL passwords) aren't hardcoded.</em></li>
+    <li> main.tf: <em>Defines the resource logic.</em></li>
+    <li> variables.tf: <em>Stores parameters and ensures sensitive data (like SQL passwords) aren't hardcoded.</em></li>
 </ol>
 </p>
 
@@ -73,16 +73,16 @@ My steps:<br>
     2.uv init --python=3.13
 
     3. made a network
-        docker network create homework-network<br>
+        docker network create pg-network<br>
     
-    4. ran pastgress
+    4. ran postgress
             docker run -it \
             -e POSTGRES_USER="root" \
             -e POSTGRES_PASSWORD="root" \
             -e POSTGRES_DB="ny_taxi" \
             -v ny_taxi_postgres_data:/var/lib/postgresql \
             -p 5432:5432 \
-            --network=homework-network \
+            --network=pg-network \
             --name pgdatabase \
             postgres:18
 
@@ -92,7 +92,7 @@ My steps:<br>
             -e PGADMIN_DEFAULT_PASSWORD="root" \
             -v pgadmin_data:/var/lib/pgadmin \
             -p 8085:80 \
-            --network=homework-network \
+            --network=pg-network \
             --name pgadmin \
             dpage/pgadmin4
 
@@ -101,7 +101,7 @@ My steps:<br>
 
     7. then typed
         docker run -it \
-        --network=homework_default \
+        --network=pgnetwork_default \
         homework_ingest:v001 \
         --pg-user=root \
         --pg-pass=root \
@@ -193,21 +193,9 @@ Question 6.
     To start the services:
         docker compose up -d
 
-2. run ingestion script | Dockerfile
- made dockerfile sp it can run in any environment without local python dependency problem.
-
-    docker run -it \
-    --network=homework_default \
-    homework_ingest:v001 \
-        --pg-user=root \
-        --pg-pass=root \
-        --pg-host=pgdatabase \
-        --pg-port=5432 \
-        --pg-db=ny_taxi \
-        --target-table=green_taxi_trips
-3. to work with pgcli
+2. to work with pgcli
     uv run pgcli -h localhost -p 5432 -u root -d ny_taxi
 
-4. Shutdown & Cleanup
+3. Shutdown & Cleanup
 To stop the database and remove the containers, run:
     docker compose down
