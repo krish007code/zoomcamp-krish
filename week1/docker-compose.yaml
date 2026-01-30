@@ -1,0 +1,56 @@
+services:
+  pgdatabase:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "root"
+      POSTGRES_DB: "ny_taxi"
+    volumes:
+      - "ny_taxi_postgres_data:/var/lib/postgresql"
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d ny_taxi"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pg-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "root"
+    volumes:
+      - "pgadmin_data:/var/lib/pgadmin"
+    ports:
+      - "8085:80"
+    networks:
+      - pg-network
+
+  ingest:
+    image: python:3.12-slim   
+    volumes:
+      - .:/app              
+    working_dir: /app      
+    networks:
+      - pg-network
+    depends_on:
+      pgdatabase:
+        condition: service_healthy
+    entrypoint: python ingest.py   
+    command:
+      - --pg-user=root
+      - --pg-pass=root
+      - --pg-host=pgdatabase
+      - --pg-port=5432
+      - --pg-db=ny_taxi
+
+networks:
+  pg-network:
+    name: pg-network
+
+volumes:
+  ny_taxi_postgres_data:
+  pgadmin_data:
